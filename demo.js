@@ -84,8 +84,8 @@ function calculateRouteFromAtoB(platform) {
 
   // informações que se aplicam
   function openBubble(position, text) {
-    if (!bubble) {                                         // CASO NÃO TENHA NENHUMA BUBBLE EM ABERTO
-      bubble = new H.ui.InfoBubble(                        // Ela irá usar como padrão as arraw bubble
+    if (!bubble) {                                         
+      bubble = new H.ui.InfoBubble(                       
         position,  {content: text});                       // The FO property holds the province name.
       ui.addBubble(bubble);
     } else {
