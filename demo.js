@@ -10,6 +10,9 @@ let safe_zone = {
     tipo:'S'
 }
 
+let escolha_usuario = document.querySelector('#escolha')
+fetch('Postos.json')
+
 //calcula a rota
 function calculateRouteFromAtoB(platform) {                     
     var router = platform.getRoutingService(null, 8),
