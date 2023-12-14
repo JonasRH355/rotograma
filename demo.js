@@ -10,8 +10,8 @@ let safe_zone = {
     tipo:'S'
 }
 
-let escolha_usuario = document.querySelector('#escolha')
-fetch('Postos.json')
+let escolha_usuario = document.querySelector('#escolha')      //objetivo: criar um objeto com as informações do json que com o sinal de escolha do html em true
+fetch('Postos.json')                                          // irá enviar para a função de criar as bubbles e habilitalas ao mapa
 
 //calcula a rota
 function calculateRouteFromAtoB(platform) {                     
@@ -124,17 +124,17 @@ function calculateRouteFromAtoB(platform) {
       '<circle cx="8" cy="8" r="8" ' +
         'fill="#1b468d" stroke="white" stroke-width="1" />' +
       '</svg>',
-      dotIcon = new H.map.Icon(svgMarkup, {anchor: {x:8, y:8}}),  // Posição em que as informações irão aparecer             //use o x e y == 8 para que fique a cima da rota de forma mais correta
+      dotIcon = new H.map.Icon(svgMarkup, {anchor: {x:8, y:8}}),  
       group = new H.map.Group(),
       i,
       j;
   
     route.sections.forEach((section) => {
-      let poly = H.geo.LineString.fromFlexiblePolyline(section.polyline).getLatLngAltArray();
+      let poly = H.geo.LineString.fromFlexiblePolyline(section.polyline).getLatLngAltArray();  // pega a localização da rota correspondente a uma ação a qual o motorista deve fazer
   
       let actions = section.actions;
 
-      // inicializa o interativo no mapa
+      // posições em que irá construir as bubbles
       for (i = 0; i < actions.length; i += 1) {
         let action = actions[i];
         var marker = new H.map.Marker({
@@ -145,7 +145,7 @@ function calculateRouteFromAtoB(platform) {
         group.addObject(marker);
       }
   
-
+        //cria o evento
       group.addEventListener('tap', function (evt) {
         map.setCenter(evt.target.getGeometry());
         openBubble(evt.target.getGeometry(), evt.target.instruction);
