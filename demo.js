@@ -81,6 +81,7 @@ function calculateRouteFromAtoB(platform) {
   var bubble;
 }
 
+  
 
   // informações que se aplicam
   function openBubble(position, text) {
@@ -126,23 +127,47 @@ function calculateRouteFromAtoB(platform) {
       '</svg>',
       dotIcon = new H.map.Icon(svgMarkup, {anchor: {x:8, y:8}}),  
       group = new H.map.Group(),
-      i,
-      j;
+      i;
   
     route.sections.forEach((section) => {
       let poly = H.geo.LineString.fromFlexiblePolyline(section.polyline).getLatLngAltArray();  // pega a localização da rota correspondente a uma ação a qual o motorista deve fazer
   
       let actions = section.actions;
 
-      // posições em que irá construir as bubbles
+      // posições em que irá construir as bubbles0
       for (i = 0; i < actions.length; i += 1) {
-        let action = actions[i];
-        var marker = new H.map.Marker({
+        if(i == 0 ){
+          let action = actions[i];
+          var marker = new H.map.Marker({
+          lat: poly[action.offset * 3],
+          lng: poly[action.offset * 3 + 1]},);
+         marker.instruction = 'Ponto Inicial';
+         group.addObject(marker);
+        }
+
+        else if(i == (actions.length)-1){
+          let action = actions[i];
+          var marker = new H.map.Marker({
+          lat: poly[action.offset * 3],
+          lng: poly[action.offset * 3 + 1]},);
+         marker.instruction = 'Ponto final';
+         group.addObject(marker);
+        }
+
+        else{
+          var svgMarkup = '<svg width="180" height="180" ' + 'xmlns="http://www.w3.org/2000/svg">' +
+         '<circle cx="8" cy="8" r="8" ' +
+         'fill="#1b468d" stroke="white" stroke-width="1" />' +
+          '</svg>',
+          dotIcon = new H.map.Icon(svgMarkup, {anchor: {x:8, y:8}});
+          let action = actions[i];
+          var marker = new H.map.Marker({
           lat: poly[action.offset * 3],
           lng: poly[action.offset * 3 + 1]},
           {icon: dotIcon});
-        marker.instruction = action.instruction;
-        group.addObject(marker);
+          marker.instruction = action.instruction;
+          group.addObject(marker);
+        }
       }
   
         //cria o evento
